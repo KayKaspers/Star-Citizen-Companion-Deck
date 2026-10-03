@@ -6,6 +6,11 @@
 *.html text eol=lf
 *.md text eol=lf
 *.png binary
+*.pdf binary
+*.gif binary
+*.mp4 binary
+*.ico binary
 
 # Originale Schriftlizenzen unverändert erhalten.
 branding/fonts/*-OFL.txt whitespace=-blank-at-eol
+release/licenses/*.txt whitespace=-blank-at-eol

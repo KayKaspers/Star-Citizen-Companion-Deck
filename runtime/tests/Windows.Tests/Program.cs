@@ -25,11 +25,25 @@ internal static class Program
             return ExternalVerification.Run(args[1], args[2]);
         if (args.Length == 3 && args[0] == "--verify-external-centered")
             return ExternalVerification.Run(args[1], args[2], ExternalPlacementMode.CenterInBay);
+        if (args.Length == 2 && args[0] == "--fixture-hold")
+        {
+            using var held = new QuietForm { Text = args[1], Width = 300, Height = 240 };
+            held.FormClosing += (_, e) => e.Cancel = true;
+            Application.Run(held); return 0;
+        }
         if (args.Length == 2 && args[0] == "--fixture")
         {
             Application.Run(new QuietForm { Text = args[1], Width = 300, Height = 240 }); return 0;
         }
         int exit = 0;
+        using (var firstMarker = ApplicationLifetime.TryAcquire())
+        {
+            Check("first UI instance obtains marker", firstMarker is not null);
+            using var duplicateMarker = ApplicationLifetime.TryAcquire();
+            Check("duplicate UI instance cannot obtain marker", duplicateMarker is null);
+        }
+        using (var reopenedMarker = ApplicationLifetime.TryAcquire())
+            Check("UI instance marker is released on close", reopenedMarker is not null);
         var desktop = new WindowsDesktop();
         var displays = desktop.DiscoverDisplays();
         Check("native active display enumeration", displays.Count > 0 && displays.All(d => d.Bounds.Width > 0 && d.Bounds.Height > 0));
@@ -42,6 +56,38 @@ internal static class Program
         string auroraPath = Path.Combine(feedDirectory, "Aurora-Companion-Events.jsonl");
         const string companionFixture = "{\"schemaVersion\":1,\"type\":\"safety_zone_entered\",\"timestampUtc\":\"2026-10-03T09:00:00Z\"}\n";
         File.WriteAllText(orionPath, companionFixture); File.WriteAllText(auroraPath, companionFixture);
+        string discoveryRoot = Path.Combine(feedDirectory, "installation-root");
+        string discoveryGame = Path.Combine(discoveryRoot, "Roberts Space Industries", "StarCitizen", "LIVE", "Game.log");
+        Directory.CreateDirectory(Path.GetDirectoryName(discoveryGame)!); File.WriteAllText(discoveryGame, "synthetic");
+        Check("discovery finds LIVE on supplied local root", GameLogDiscovery.Find([discoveryRoot]).SequenceEqual([discoveryGame]));
+        string secondGame = Path.Combine(discoveryRoot, "Spiele", "StarCitizen", "LIVE", "Game.log");
+        Directory.CreateDirectory(Path.GetDirectoryName(secondGame)!); File.WriteAllText(secondGame, "synthetic");
+        Check("discovery preserves multiple installations and deduplicates roots", GameLogDiscovery.Find([discoveryRoot, discoveryRoot]).Count == 2);
+        Check("discovery excludes network and relative roots", GameLogDiscovery.Find([@"\\server\share", "relative"], _ => true).Count == 0);
+        int discoveryProbes = 0;
+        GameLogDiscovery.Find(Enumerable.Repeat(discoveryRoot, 100), _ => { discoveryProbes++; throw new UnauthorizedAccessException(); });
+        Check("discovery is bounded and tolerates denied paths", discoveryProbes == 260);
+        string setupConfigPath = Path.Combine(feedDirectory, "setup-config.json");
+        using (var setup = new SetupForm(storagePath: setupConfigPath))
+        {
+            var gameField = (TextBox)setup.Controls.Find("gamePath", true).Single();
+            var eventsField = (TextBox)setup.Controls.Find("eventsPath", true).Single();
+            var variantField = (ComboBox)setup.Controls.Find("variant", true).Single();
+            Check("setup starts without a fixed game drive", gameField.Text == "");
+            _ = setup.Handle; setup.PerformLayout();
+            Check("setup fields remain within client area", new Control[] { gameField, eventsField, variantField }.All(c =>
+                setup.RectangleToClient(c.RectangleToScreen(c.ClientRectangle)).Bottom <= setup.ClientSize.Height));
+            variantField.SelectedItem = "Aurora"; gameField.Text = feedPath; eventsField.Text = auroraPath;
+            setup.SaveConfiguration();
+            var saved = RuntimeConfig.Load(setupConfigPath);
+            Check("setup persists selected local Game.log and Aurora identity", saved.GameLogPath == feedPath && saved.ExternalWindow?.Title == "Aurora Orb");
+            gameField.Text = Path.Combine(feedDirectory, "missing", "Game.log");
+            bool rejected = false;
+            try { setup.SaveConfiguration(); } catch (ArgumentException) { rejected = true; }
+            Check("invalid game selection preserves saved config", rejected && RuntimeConfig.Load(setupConfigPath).GameLogPath == feedPath);
+            gameField.Text = ""; setup.SaveConfiguration();
+            Check("companion-only setup needs no Game.log", RuntimeConfig.Load(setupConfigPath).GameLogPath is null);
+        }
         var config = new RuntimeConfig { DisplayKey = selected.Key, Mode = WindowMode.Fullscreen, RefreshMilliseconds = 500, GameLogPath = feedPath, CompanionEventsPath = orionPath };
         using var host = new QuietRuntimeForm(desktop, config);
         host.Shown += async (_, _) =>
@@ -97,6 +143,8 @@ internal static class Program
                 Check("separate process selected by exact title", window.ProcessId == fixture.Id);
                 Check("read-only process inspection finds fixture metadata", desktop.InspectWindows(fixture.ProcessName + ".exe").Any(w => w.Title == title && w.ProcessId == fixture.Id));
                 Check("wrong title excludes control surface", desktop.FindWindows(selector with { Title = "other" }).Count == 0);
+                string otherInstallation = Path.Combine(feedDirectory, Path.GetFileName(fixture.MainModule!.FileName));
+                Check("shutdown excludes another installation with same executable name", ApplicationLifetime.CloseInstallation(otherInstallation, 200) && !fixture.HasExited);
                 var foreground = GetForegroundWindow(); var parent = GetParent(new nint(window.Handle));
                 var style = GetWindowLongPtrW(new nint(window.Handle), -16); var extendedStyle = GetWindowLongPtrW(new nint(window.Handle), -20);
                 using var session = new RuntimeSession(desktop, config with { ExternalWindow = selector });
@@ -117,8 +165,18 @@ internal static class Program
                     await Until(() => managedHost.IsDisposed, "managed host completes bounded close", 5000);
                     Check("normal host close confirms external restoration", desktop.ReadWindow(new nint(window.Handle))!.Bounds == window.Bounds);
                 }
-                fixture.Kill(); await fixture.WaitForExitAsync();
+                Check("shutdown requests normal close and waits for exit", await Task.Run(() => ApplicationLifetime.CloseInstallation(fixture.MainModule!.FileName, 5000)));
+                await fixture.WaitForExitAsync();
                 Check("closed fixture handle is stale", !desktop.IsCurrent(window));
+                using (var heldFixture = Process.Start(new ProcessStartInfo(Environment.ProcessPath!, "--fixture-hold HeldShutdownFixture") { UseShellExecute = false })!)
+                {
+                    try
+                    {
+                        await Until(() => desktop.FindWindows(new ExternalSelector(heldFixture.ProcessName, Title: "HeldShutdownFixture")).Any(), "held fixture is ready");
+                        Check("shutdown refusal fails without killing process", !await Task.Run(() => ApplicationLifetime.CloseInstallation(heldFixture.MainModule!.FileName, 300)) && !heldFixture.HasExited);
+                    }
+                    finally { if (!heldFixture.HasExited) { heldFixture.Kill(); await heldFixture.WaitForExitAsync(); } }
+                }
                 Check("missing external produces degraded health", session.Refresh().State == HealthState.DEGRADED);
                 using (var auroraHost = new QuietRuntimeForm(desktop, config with { CompanionVariant = "Aurora", CompanionEventsPath = auroraPath }))
                 {

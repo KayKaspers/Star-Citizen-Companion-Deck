@@ -17,58 +17,67 @@ Textfilter, Kategorien und automatisches Scrollen helfen beim Lesen im Spiel.
 Der Begleiter bleibt ein separates Windows-Fenster und wird im rechten Bereich
 positioniert; beim normalen Beenden wird seine ursprüngliche Position wiederhergestellt.
 
-## Stand
+## Installation und Start
 
-Entwicklungsstand zur Prüfung, noch keine veröffentlichte Version.
-Aus dem Projekt XENEON-Edge-Control-Deck ausgegliedert; Grundlage sind dessen
-Laufzeit-Arbeitspakete XEE-WP-025 und XEE-WP-026. Orion wurde am echten System
-geprüft. Aurora verwendet denselben Ereignisvertrag; ihre tatsächlichen
-Fenstertitel und Ausgabepfade müssen beim ersten Einsatz bestätigt werden.
+Die Ausgabe **0.1.0** wird zur Veröffentlichung vorbereitet; auf GitHub wurde noch
+kein Release veröffentlicht. Unterstützt: Windows 10 ab 1809 oder Windows 11,
+64 Bit (x64), mit XENEON EDGE als normalem Desktop-Monitor.
 
-## Voraussetzungen
+1. Den Installer ausführen. Er installiert für dein Benutzerkonto; .NET ist enthalten.
+   Falls WebView2 fehlt, wird es über Microsoft nachinstalliert (Internet erforderlich).
+2. Orion oder Aurora von Aurora Systems separat starten.
+3. In iCUE **Bildschirmeinrichtung → Desktop** einstellen.
+4. **Begleiter-Deck** starten. Beim ersten Start den Begleiter und die Ereignisdatei
+   wählen. Der passende Standardpfad unter Dokumente wird vorgeschlagen.
+5. Die Einrichtung sucht automatisch nach **Game.log** in typischen LIVE-Ordnern
+   auf lokalen Laufwerken. Einen Treffer prüfen, bei mehreren Treffern auswählen.
+   Alternativ die Datei manuell auswählen. Sie kann auf jedem lokalen Laufwerk liegen;
+   es gibt keine Vorgabe auf Laufwerk D:. Ohne Game.log bleibt „Nur Begleiter“ verfügbar.
 
-- Windows 10 ab Version 1809 oder Windows 11, interaktiver Desktop.
-- .NET 8 Desktop Runtime und Microsoft Edge WebView2 Runtime.
-- Zum Bauen: .NET SDK 8.0.425 oder eine passende neuere 8.0.4xx-Version.
-- Separat gestarteter Orion- oder Aurora-Log-Wächter und Star Citizen.
-- XENEON EDGE in iCUE unter **Bildschirmeinrichtung → Desktop** umschalten.
+Die Einrichtung speichert ausschließlich deine lokalen Einstellungen unter
+`%LOCALAPPDATA%\StarCitizenCompanionDeck\config.json`. Sie werden nicht ins
+Repository aufgenommen. Für spätere Änderungen im Startmenü
+**Begleiter-Deck einrichten** verwenden und eine laufende Sitzung vorher schließen.
+Bei der Deinstallation bleiben diese Einstellungen erhalten.
+Der Deinstaller schließt das laufende Deck regulär und wartet auf das Prozessende.
+Wenn das nicht gelingt, bricht er vor dem Entfernen von Dateien ab. Mehrfachstarts
+des Decks innerhalb derselben Windows-Sitzung werden verhindert.
 
-## Starten
+**Escape** beendet die Anwendung und gibt das Begleiterfenster zurück.
+**F11** wechselt den Fenstermodus. Die Oberfläche hat keine Begleiter-Auswahlliste;
+die Einrichtung bestimmt, welches separat gestartete Tool verbunden wird.
+Die Designauswahl wird lokal gespeichert. Spielprotokolle bleiben unverändert.
 
-1. `runtime/runtime.orion.example.json` oder `runtime/runtime.aurora.example.json`
-   in einen privaten Ordner kopieren.
-2. `gameLogPath` auf die lokale `Game.log` setzen.
-3. `companionEventsPath` auf die Ereignisdatei des gewählten Begleiters setzen.
-   Beispiel für eine eigene Installation, mit entsprechend angepassten Pfaden:
+## Benutzerhandbuch
 
-```json
-{
-  "schemaVersion": 1,
-  "mode": "Fullscreen",
-  "companionVariant": "Orion",
-  "externalWindow": {
-    "processName": "Orion Log-Wächter",
-    "title": "Orion Companion"
-  },
-  "externalPlacement": "CenterInBay",
-  "gameLogPath": "D:\\Spiele\\StarCitizen\\LIVE\\Game.log",
-  "companionEventsPath": "C:\\EigeneDateien\\Orion-Companion-Events.jsonl"
-}
-```
+[Benutzerhandbuch als PDF](docs/Benutzerhandbuch.pdf) mit Installation, Einrichtung,
+Bedienung, Designs und Fehlerbehebung. Der Installer liefert es mit und legt den
+Startmenü-Eintrag **Begleiter-Deck Benutzerhandbuch** an. Im portablen Paket liegt
+es neben der Programmdatei. Die [Textfassung](docs/BENUTZERHANDBUCH.md) ist ebenfalls verfügbar.
 
-4. Vom Repository-Ordner starten:
+## Techdemo
+
+Die 40-Sekunden-Techdemo erklÃ¤rt vier Bedienungsschritte: Begleiter-Reaktionen
+live lesen, Kategorien wÃ¤hlen, weitere Logs zuschalten und das Herstellerdesign wechseln.
+
+https://github.com/user-attachments/assets/b89f3202-57ac-494d-82a7-8f1df2c6df0a
+
+Mit dem Player direkt hier abspielen; das Video enthÃ¤lt Originalton und ruhige Musik.
+[Techdemo als MP4 herunterladen](docs/media/techdemo.mp4).
+[Medienquellen und Musikcredits](docs/VIDEO-MEDIEN-V2.md).
+
+## Entwicklung
+
+Zum Bauen: .NET SDK 8.0.425; zum Prüfen der Oberfläche zusätzlich Node.js ab 22.
+Private JSON-Konfigurationen lassen sich weiterhin ausdrücklich übergeben:
 
 ```powershell
 ./runtime/Start-Runtime.ps1 -ConfigPath 'C:\EigeneDateien\deck.json' -PlaceExternal
 ```
 
-**Escape** beendet die Anwendung, **F11** wechselt den Fenstermodus.
-Die Auswahlliste **Begleiter** schaltet zwischen Orion und Aurora um. Dabei wird
-zuerst das bisherige Fenster freigegeben. Das Deck startet keinen Log-Wächter.
-Für die andere Variante gelten zunächst die dokumentierten Standardpfade;
-abweichende Installationen mit einer eigenen Konfigurationsdatei starten.
-Die Designauswahl wird lokal gespeichert. Rohtexte aus dem Spielprotokoll
-werden in ihrer ursprünglichen Sprache angezeigt.
+Die Beispieldateien unter runtime/ enthalten keine persönlichen Spielpfade.
+[Release-Build und Installationsprüfung](release/README.md) dokumentieren den
+reproduzierbaren Installer und das portable Paket.
 
 ## Designs und Brand-Kit
 

@@ -33,3 +33,10 @@ und wird nicht als realer Spielinhalt oder echte Hardware präsentiert.
 
 Der Original-Prompt steht in [IMAGEGEN-PROMPT.txt](IMAGEGEN-PROMPT.txt).
 Die vorherige V1-Familie war vollständig als native Vektorgrafik angelegt.
+
+## Blackhole Dynamics
+
+Das bestehende Blackhole-Dynamics-Bildzeichen wurde auf Wunsch des Maintainers
+unverändert aus branding/assets/png/blackhole-dynamics-icon.png des Projekts
+XENEON-Edge-Control-Deck übernommen. Es kennzeichnet den Ersteller des Decks.
+Orion und Aurora bleiben externe Tools von Aurora Systems.

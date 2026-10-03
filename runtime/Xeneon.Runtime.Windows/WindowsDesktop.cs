@@ -85,6 +85,9 @@ public sealed class WindowsDesktop : IDesktop
         return EnumerateWindows().Where(w => string.Equals(name, w.ProcessName, StringComparison.OrdinalIgnoreCase)).ToArray();
     }
 
+    public bool RequestClose(WindowIdentity identity) => IsCurrent(identity)
+        && Native.PostMessageW(new nint(identity.Handle), 0x0010, 0, 0); // WM_CLOSE, asynchronous normal close.
+
     private IReadOnlyList<WindowIdentity> EnumerateWindows()
     {
         using var dpi = new DpiScope(); var result = new List<WindowIdentity>(); Exception? failure = null;

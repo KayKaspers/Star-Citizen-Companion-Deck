@@ -46,7 +46,7 @@ bei einer Präsentation mit Orion oder Aurora gehört der Herkunftshinweis daneb
 [VORSCHAU.html](VORSCHAU.html) zeigt die gesamte Familie. Die PNGs halten
 Schrift und Darstellung exakt fest. SVG-Kompositionen bleiben editierbar;
 Schriften und Bannerhintergrund sind für eigenständige Verwendung eingebettet.
-Die vorherigen Dateien ohne V2-Suffix bleiben als früherer Entwurf erhalten.
+Frühere Entwürfe ohne V2-Suffix wurden bei der Release-Bereinigung entfernt.
 Das Projekt-README verwendet jetzt den V2-Banner.
 
 ## Farben

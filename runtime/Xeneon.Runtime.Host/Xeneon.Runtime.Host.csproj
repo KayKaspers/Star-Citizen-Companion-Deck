@@ -3,7 +3,9 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <OutputType>Exe</OutputType>
+    <OutputType Condition="'$(ReleaseInstaller)' == 'true'">WinExe</OutputType>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <ApplicationIcon>../../release/app.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../Xeneon.Runtime.Windows/Xeneon.Runtime.Windows.csproj" />

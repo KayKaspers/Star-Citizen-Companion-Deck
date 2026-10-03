@@ -19,5 +19,7 @@ angegeben werden. Eigene Konfigurationen außerhalb des Repositorys speichern.
 
 Die Beispielkonfigurationen positionieren bei -PlaceExternal ausschließlich
 das exakt gewählte separate Begleiterfenster. Escape gibt es vor dem Schließen
-zurück. Die Aurora-Beispielwerte sind vor dem ersten Einsatz live zu prüfen.
+zurück. Auroras Fenstertitel „Aurora Orb“ wurde live bestätigt; die tatsächliche
+Installation kann trotzdem eigene Pfade haben. Die installierte Anwendung
+öffnet beim ersten Start ihre deutsche Einrichtung und verlangt kein festes Laufwerk.
 Orion und Aurora müssen separat gestartet werden. Das Deck startet sie nicht.

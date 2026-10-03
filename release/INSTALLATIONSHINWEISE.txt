@@ -1,0 +1,14 @@
+Star Citizen Begleiter-Deck – Release-Kandidat
+
+Erstellt von Blackhole Dynamics.
+Orion und Aurora sind externe Tools von Aurora Systems (https://www.aurora-systems.online/).
+Das Deck integriert diese separat gestarteten Tools. Keine Roboter oder Sprachausgabe enthalten.
+
+Installation nur für dein Benutzerkonto, ohne Administratorrechte. .NET ist enthalten.
+Falls WebView2 fehlt, lädt der Microsoft-Installer dessen Laufzeit aus dem Internet nach.
+
+Beim ersten Start wählst du den Begleiter und deine eigenen Dateien aus.
+Game.log ist optional und kann auf jedem lokalen Laufwerk liegen.
+XENEON EDGE muss in iCUE als Desktop eingestellt sein.
+
+Deine Einstellungen liegen unter LOCALAPPDATA\StarCitizenCompanionDeck und bleiben bei der Deinstallation erhalten.

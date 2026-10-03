@@ -67,7 +67,7 @@ internal class RuntimeForm : Form
     {
         if (variant == companionName) return;
         var selector = variant == config.CompanionVariant && config.ExternalWindow is not null
-            ? config.ExternalWindow : new ExternalSelector(variant + " Log-Wächter", Title: variant + " Companion");
+            ? config.ExternalWindow : new ExternalSelector(variant + " Log-Wächter", Title: variant == "Aurora" ? "Aurora Orb" : "Orion Companion");
         if (!session.SelectExternal(selector))
         { log.Write("DEGRADED", "COMPANION_SWITCH_RESTORE_PENDING"); RefreshState(); return; }
         companionName = variant;

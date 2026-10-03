@@ -10,3 +10,5 @@ Game.log
 diagnostics/
 branding/export-v2/
 branding/*.zip
+
+artifacts/

@@ -11,7 +11,14 @@ internal static class Program
     {
         try
         {
-            string? configPath = null, inspectProcess = null; bool probe = false, placeExternal = false;
+            if (args.Length == 1 && args[0] == "--shutdown")
+            {
+                // A shared dotnet.exe host must never be treated as our installation.
+                string? executable = Environment.ProcessPath;
+                if (!string.Equals(Path.GetFileNameWithoutExtension(executable), typeof(Program).Assembly.GetName().Name, StringComparison.OrdinalIgnoreCase)) return 3;
+                return ApplicationLifetime.CloseInstallation(executable!) ? 0 : 3;
+            }
+            string? configPath = null, inspectProcess = null; bool probe = false, placeExternal = false, configure = false;
             for (int i = 0; i < args.Length; i++)
             {
                 switch (args[i])
@@ -20,6 +27,7 @@ internal static class Program
                         if (configPath is not null || i + 1 >= args.Length || args[i + 1].StartsWith("--")) throw new ArgumentException("Invalid config argument.");
                         configPath = args[++i]; break;
                     case "--probe": probe = true; break;
+                    case "--configure": configure = true; break;
                     case "--inspect-process":
                         if (inspectProcess is not null || i + 1 >= args.Length || args[i + 1].StartsWith("--")) throw new ArgumentException("Invalid inspection argument.");
                         inspectProcess = args[++i]; ExternalSelector.ValidateProcessName(inspectProcess); break;
@@ -27,9 +35,37 @@ internal static class Program
                     default: throw new ArgumentException("Unknown argument.");
                 }
             }
-            var config = configPath is null ? new RuntimeConfig() : RuntimeConfig.Load(configPath);
-            config.Validate();
             Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
+            bool opensWindow = !probe && inspectProcess is null;
+            using var runningMarker = opensWindow ? ApplicationLifetime.TryAcquire() : null;
+            if (opensWindow && runningMarker is null)
+            {
+                MessageBox.Show("Das Begleiter-Deck läuft bereits. Bitte die laufende Sitzung zuerst beenden.", "Begleiter-Deck bereits geöffnet");
+                return 0;
+            }
+            bool normalStart = args.Length == 0 || configure;
+            if (configure && args.Length != 1) throw new ArgumentException("--configure muss allein verwendet werden.");
+            RuntimeConfig config;
+            if (normalStart)
+            {
+                RuntimeConfig? stored = null;
+                if (File.Exists(SetupForm.ConfigPath))
+                {
+                    try { stored = RuntimeConfig.Load(SetupForm.ConfigPath); }
+                    catch (Exception e) when (e is ArgumentException or JsonException or IOException or UnauthorizedAccessException)
+                    { MessageBox.Show("Die gespeicherte Konfiguration konnte nicht gelesen werden. Bitte erneut einrichten.", "Begleiter-Deck"); }
+                }
+                if (configure || stored is null)
+                {
+                    using var setup = new SetupForm(stored);
+                    if (setup.ShowDialog() != DialogResult.OK || setup.Result is null) return 0;
+                    config = setup.Result;
+                }
+                else config = stored;
+                placeExternal = true;
+            }
+            else config = configPath is null ? new RuntimeConfig() : RuntimeConfig.Load(configPath);
+            config.Validate();
             var desktop = new WindowsDesktop();
             if (inspectProcess is not null)
             {

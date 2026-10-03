@@ -70,6 +70,10 @@ const path = require('node:path');
     for (const viewport of [{width:2560,height:720},{width:1707,height:480},{width:900,height:420}]) {
       await page.setViewportSize(viewport);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth && document.documentElement.scrollHeight <= innerHeight),true); passed++;
+      if (viewport.width >= 1100) {
+        const credit = await page.locator('.creator-credit').boundingBox();
+        assert.ok(Math.abs(credit.x + credit.width / 2 - viewport.width / 2) <= 1, 'creator credit centered'); passed++;
+      }
     }
     await page.setViewportSize({width:2560,height:720});
     await page.locator('[data-tab=LOG]').click();
@@ -78,8 +82,13 @@ const path = require('node:path');
     await page.evaluate(s => window.receive({data:s}), aurora);
     assert.match(await page.locator('#companion-heading').textContent(), /AURORA/);
     assert.match(await page.locator('#feed-count').textContent(), /Aurora/); passed++;
-    await page.locator('#companion-select').selectOption('Orion');
-    assert.equal(await page.evaluate(() => window.commands.at(-1)), 'companion:Orion'); passed++;
+    assert.equal(await page.locator('#companion-select').count(), 0);
+    assert.equal(await page.evaluate(() => window.commands.some(c => c.startsWith('companion:'))), false); passed++;
+    await page.evaluate(s => window.receive({data:s}), {...aurora, starCitizen:null});
+    assert.equal(await page.locator('#game-panel').isVisible(), true);
+    assert.equal(await page.locator('.feed-row').count(), aurora.companionEvents.events.length); passed++;
+    assert.equal(await page.locator('#extra-logs').isDisabled(), true); passed++;
+    await page.evaluate(s => window.receive({data:s}), aurora);
     const luminance = hex => { const channels = hex.match(/[0-9a-f]{2}/gi).map(x => parseInt(x,16)/255).map(v => v <= .04045 ? v/12.92 : ((v+.055)/1.055)**2.4); return channels[0]*.2126+channels[1]*.7152+channels[2]*.0722; };
     for (const theme of ['neutral','rsi','anvil','aegis','drake','origin','crusader','misc','argo','banu','consolidated','esperia','kruger','mirai','vanduul','aopoa']) {
       await page.locator('#theme-select').selectOption(theme);

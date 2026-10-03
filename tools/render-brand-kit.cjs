@@ -15,7 +15,8 @@ const {pathToFileURL}=require('node:url');const path=require('node:path');const 
   }
   await page.setViewportSize({width:1440,height:1000});await page.goto(pathToFileURL(path.join(root,'branding/VORSCHAU.html')).href);
   await page.evaluate(()=>Promise.all([...document.images].map(i=>i.decode())));
-  await page.screenshot({path:path.join(root,'evidence/brand-kit-v2.png'),fullPage:true});
+  fs.mkdirSync(path.join(root,'artifacts/branding'),{recursive:true});
+  await page.screenshot({path:path.join(root,'artifacts/branding/brand-kit-v2.png'),fullPage:true});
   if(errors.length)throw Error(errors.join('\n'));
   console.log('Brand-Kit V2 gerendert und geprüft.');
  }finally{await browser.close();}

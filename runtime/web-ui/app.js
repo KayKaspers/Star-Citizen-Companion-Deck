@@ -12,9 +12,6 @@
   const setTheme = value => { const theme = themes.has(value) ? value : 'neutral'; document.body.dataset.theme = theme; themeSelect.value = theme; };
   try { setTheme(localStorage.getItem('companion-deck-theme')); } catch { setTheme('neutral'); }
   themeSelect.addEventListener('change', () => { setTheme(themeSelect.value); try { localStorage.setItem('companion-deck-theme', themeSelect.value); } catch {} });
-  const companionSelect = document.getElementById('companion-select');
-  companionSelect.disabled = !bridge;
-  companionSelect.addEventListener('change', () => { if (['Orion','Aurora'].includes(companionSelect.value)) bridge?.postMessage('companion:' + companionSelect.value); });
   let feedState = null, orionState = null, companionName = 'Orion', tab = 'LOG';
   function renderFeed() {
     if (!feedState) return;
@@ -51,7 +48,7 @@
   function render(state) {
     if (state?.schemaVersion !== 1 || !Array.isArray(state.diagnostics)) return;
     text('health', health(state.state)); document.body.dataset.health = state.state;
-    companionName = state.companionName === 'Aurora' ? 'Aurora' : 'Orion'; companionSelect.value = companionName;
+    companionName = state.companionName === 'Aurora' ? 'Aurora' : 'Orion';
     text('companion-heading', 'BEGLEITER // ' + companionName.toUpperCase());
     text('companion-description', 'Deutsche Sprachausgabe · ' + (companionName === 'Aurora' ? 'weibliche' : 'männliche') + ' Stimme');
     const d = state.display;
@@ -62,9 +59,12 @@
     const list = document.getElementById('diagnostics'); list.replaceChildren();
     for (const item of state.diagnostics) { const li = document.createElement('li'); li.title = item.code; li.textContent = `${({display:'Bildschirm',host:'Anwendung',externalWindow:'Begleiter',gameLog:'Spielprotokoll',companionEvents:'Begleiter-Ereignisse',runtime:'Laufzeit',webUi:'Oberfläche'}[item.component] || 'Diagnose')}: ${health(item.state)} · ${codeText(item.code)}`; list.append(li); }
     text('observed', `Beobachtet: ${state.observedAt}`);
-    if (state.starCitizen?.schemaVersion === 1 && Array.isArray(state.starCitizen.events)) {
-      feedState = state.starCitizen;
-      const events = state.companionEvents || state.orionEvents;
+    const events = state.companionEvents || state.orionEvents;
+    const hasGame = state.starCitizen?.schemaVersion === 1 && Array.isArray(state.starCitizen.events);
+    if (hasGame || (events?.schemaVersion === 1 && Array.isArray(events.events))) {
+      feedState = hasGame ? state.starCitizen : {events:[],state:'OFFLINE',code:'LOG_MISSING'};
+      document.getElementById('extra-logs').disabled = !hasGame;
+      if (!hasGame) document.getElementById('extra-logs').checked = false;
       orionState = events?.schemaVersion === 1 && Array.isArray(events.events) ? events : null;
       document.body.classList.add('sc-enabled');
       document.getElementById('game-panel').hidden = false;

@@ -1,0 +1,10 @@
+'use strict';
+const {chromium}=require('playwright');
+const options=require('../tests/browser-options.cjs');
+const {pathToFileURL}=require('node:url');const path=require('node:path');
+(async()=>{const root=path.resolve(__dirname,'..');const browser=await chromium.launch(options);
+try{const page=await browser.newPage({viewport:{width:256,height:256}});
+await page.goto(pathToFileURL(path.join(root,'branding/assets/symbol-v2.svg')).href);
+await page.evaluate(()=>{const svg=document.querySelector('svg');svg.setAttribute('width','256');svg.setAttribute('height','256');svg.setAttribute('viewBox','4 4 120 120');});
+await page.screenshot({path:path.join(root,'release/app-icon.png'),omitBackground:true});
+}finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});
