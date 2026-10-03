@@ -120,7 +120,7 @@ Beende das Deck regulär und installiere die neue Ausgabe in denselben Installat
 Installer und Anwendung sind für diese erste Ausgabe nicht digital signiert. Die veröffentlichten Prüfsummen dienen zum Vergleich der heruntergeladenen Dateien. Beziehe die Dateien ausschließlich über das Projekt-Repository.
 
 ### Projekt und Hersteller
-Repository: https://github.com/KayKaspers/Star-Citizen-Companion-Deck
+Repository: https://github.com/blackhole-dynamics/Star-Citizen-Companion-Deck
 Orion und Aurora: https://www.aurora-systems.online/
 
 Star Citizen und die genannten Hersteller gehören zu ihren jeweiligen Rechteinhabern. Dieses Community-Projekt ist nicht offiziell mit Cloud Imperium Games, Roberts Space Industries, Corsair oder Aurora Systems verbunden.

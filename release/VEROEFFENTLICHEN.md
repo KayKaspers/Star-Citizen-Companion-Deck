@@ -8,7 +8,7 @@ Bestehende Tags und Releases werden nicht überschrieben; es gibt keinen Force-P
 
 ## Techdemo zuerst selbst hochladen
 
-1. [README im GitHub-Webeditor öffnen](https://github.com/KayKaspers/Star-Citizen-Companion-Deck/edit/main/README.md).
+1. [README im GitHub-Webeditor öffnen](https://github.com/blackhole-dynamics/Star-Citizen-Companion-Deck/edit/main/README.md).
 2. Im Textfeld ans Ende gehen. Unter dem Textfeld „Attach files … selecting“ wählen.
 3. `docs/media/techdemo.mp4` aus dem lokalen Repository auswählen (1,44 MB).
 4. Die erzeugte `https://github.com/user-attachments/assets/...`-Adresse kopieren.

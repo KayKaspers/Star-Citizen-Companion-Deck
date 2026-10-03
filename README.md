@@ -19,7 +19,7 @@ positioniert; beim normalen Beenden wird seine ursprüngliche Position wiederher
 
 ## Installation und Start
 
-Downloads zur Ausgabe **0.1.0**: [Installer, portables Paket und Handbuch](https://github.com/KayKaspers/Star-Citizen-Companion-Deck/releases/tag/v0.1.0). Unterstützt: Windows 10 ab 1809 oder Windows 11,
+Downloads zur Ausgabe **0.1.0**: [Installer, portables Paket und Handbuch](https://github.com/blackhole-dynamics/Star-Citizen-Companion-Deck/releases/tag/v0.1.0). Unterstützt: Windows 10 ab 1809 oder Windows 11,
 64 Bit (x64), mit XENEON EDGE als normalem Desktop-Monitor.
 
 1. Den Installer ausführen. Er installiert für dein Benutzerkonto; .NET ist enthalten.

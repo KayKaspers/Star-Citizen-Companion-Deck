@@ -1,4 +1,4 @@
-﻿param(
+param(
     [Parameter(Mandatory = $true)]
     [string]$TechdemoUrl,
     [string]$CommitNachricht = 'Release 0.1.0: Installer, deutsches Handbuch, Einrichtung und Techdemo'
@@ -6,7 +6,7 @@
 
 $ErrorActionPreference = 'Stop'
 $taskRepository = Split-Path -Parent $PSScriptRoot
-$taskRepositoryName = 'KayKaspers/Star-Citizen-Companion-Deck'
+$taskRepositoryName = 'blackhole-dynamics/Star-Citizen-Companion-Deck'
 $taskVersion = '0.1.0'
 $taskTag = "v$taskVersion"
 $taskUtf8 = New-Object System.Text.UTF8Encoding($false)
@@ -95,7 +95,7 @@ Mit dem Player direkt hier abspielen; das Video enthält Originalton und ruhige 
     $taskReadme = [regex]::Replace($taskReadme, '(?s)## Techdemo\r?\n.*?(?=## Entwicklung)', $taskVideoSection + "`n")
     $taskReadme = [regex]::Replace($taskReadme,
         'Die Ausgabe \*\*0\.1\.0\*\* wird zur Veröffentlichung vorbereitet; auf GitHub wurde noch\r?\nkein Release veröffentlicht\. Unterstützt:',
-        'Downloads zur Ausgabe **0.1.0**: [Installer, portables Paket und Handbuch](https://github.com/KayKaspers/Star-Citizen-Companion-Deck/releases/tag/v0.1.0). Unterstützt:')
+        'Downloads zur Ausgabe **0.1.0**: [Installer, portables Paket und Handbuch](https://github.com/blackhole-dynamics/Star-Citizen-Companion-Deck/releases/tag/v0.1.0). Unterstützt:')
     [IO.File]::WriteAllText($taskReadmePath, ($taskReadme -replace "`r`n", "`n"), $taskUtf8)
 
     Invoke-DeckGit diff --check
