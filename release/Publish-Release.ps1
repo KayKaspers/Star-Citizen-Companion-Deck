@@ -1,4 +1,4 @@
-param(
+﻿param(
     [Parameter(Mandatory = $true)]
     [string]$TechdemoUrl,
     [string]$CommitNachricht = 'Release 0.1.0: Installer, deutsches Handbuch, Einrichtung und Techdemo'

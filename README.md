@@ -19,8 +19,7 @@ positioniert; beim normalen Beenden wird seine ursprüngliche Position wiederher
 
 ## Installation und Start
 
-Die Ausgabe **0.1.0** wird zur Veröffentlichung vorbereitet; auf GitHub wurde noch
-kein Release veröffentlicht. Unterstützt: Windows 10 ab 1809 oder Windows 11,
+Downloads zur Ausgabe **0.1.0**: [Installer, portables Paket und Handbuch](https://github.com/KayKaspers/Star-Citizen-Companion-Deck/releases/tag/v0.1.0). Unterstützt: Windows 10 ab 1809 oder Windows 11,
 64 Bit (x64), mit XENEON EDGE als normalem Desktop-Monitor.
 
 1. Den Installer ausführen. Er installiert für dein Benutzerkonto; .NET ist enthalten.
@@ -57,12 +56,12 @@ es neben der Programmdatei. Die [Textfassung](docs/BENUTZERHANDBUCH.md) ist eben
 
 ## Techdemo
 
-Die 40-Sekunden-Techdemo erklÃ¤rt vier Bedienungsschritte: Begleiter-Reaktionen
-live lesen, Kategorien wÃ¤hlen, weitere Logs zuschalten und das Herstellerdesign wechseln.
+Die 40-Sekunden-Techdemo erklärt vier Bedienungsschritte: Begleiter-Reaktionen
+live lesen, Kategorien wählen, weitere Logs zuschalten und das Herstellerdesign wechseln.
 
 https://github.com/user-attachments/assets/b89f3202-57ac-494d-82a7-8f1df2c6df0a
 
-Mit dem Player direkt hier abspielen; das Video enthÃ¤lt Originalton und ruhige Musik.
+Mit dem Player direkt hier abspielen; das Video enthält Originalton und ruhige Musik.
 [Techdemo als MP4 herunterladen](docs/media/techdemo.mp4).
 [Medienquellen und Musikcredits](docs/VIDEO-MEDIEN-V2.md).
 
