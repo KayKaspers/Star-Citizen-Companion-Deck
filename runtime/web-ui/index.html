@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'none'; img-src 'self'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Star Citizen Begleiter-Deck</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="themes.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header><div class="brand"><img src="brand-symbol.svg" alt="" width="52" height="52"><div><small>STAR CITIZEN BEGLEITER-DECK</small><h1 id="heading">Laufzeit-Grundlage</h1></div></div><div class="preferences"><label>Begleiter <select id="companion-select"><option value="Orion">Orion · männlich</option><option value="Aurora">Aurora · weiblich</option></select></label><label>Design <select id="theme-select"><option value="neutral">Deck · Standard</option><option value="rsi">RSI</option><option value="anvil">Anvil Aerospace</option><option value="aegis">Aegis Dynamics</option><option value="drake">Drake Interplanetary</option><option value="origin">Origin Jumpworks</option><option value="crusader">Crusader Industries</option><option value="misc">MISC</option><option value="argo">Argo Astronautics</option><option value="banu">Banu</option><option value="consolidated">Consolidated Outland</option><option value="esperia">Esperia · Tevarin</option><option value="kruger">Kruger Intergalactic</option><option value="mirai">Mirai</option><option value="vanduul">Vanduul</option><option value="aopoa">Aopoa</option></select></label><strong id="health">Startet</strong></div></header>
+  <main>
+    <section class="terminal"><div class="runtime-summary"><h2>Bildschirm &amp; Anwendung</h2><p id="display">Zustand noch nicht beobachtet</p><p id="mode">—</p><ul id="diagnostics"></ul></div>
+      <div id="game-panel" hidden>
+        <div class="feed-heading"><h2>EREIGNISPROTOKOLL</h2><span id="feed-health">Startet</span></div>
+        <nav aria-label="Log-Kategorien"><button data-tab="LOG" aria-pressed="true">Alle</button><button data-tab="EVENTS" aria-pressed="false">Ereignisse</button><button data-tab="SHIP" aria-pressed="false">Schiff</button><button data-tab="LOCATION" aria-pressed="false">Ort</button><button data-tab="COMBAT" aria-pressed="false">Kampf</button><button data-tab="SYSTEM" aria-pressed="false">System</button></nav>
+        <div class="feed-tools"><label>Filter <input id="feed-filter" type="search" maxlength="100" placeholder="Text oder Quelle"></label><label><input id="extra-logs" type="checkbox"> Weitere Logs</label><label><input id="auto-scroll" type="checkbox" checked> Auto-Scroll</label><span id="feed-count">0 Zeilen</span></div>
+        <div id="feed" role="log" aria-label="Lokale Begleiter-Ereignisse"></div>
+        <p class="feed-note">Gemeldete Reaktionen · „Älter“ = vor dem Start eingelesen · Audiowiedergabe nicht bestätigt</p>
+      </div>
+    </section>
+    <section class="bay"><h2 id="companion-heading">BEGLEITER // ORION</h2><p id="bay">Wartet auf Bildschirm</p><p id="companion-description">Deutsche Sprachausgabe · männliche Stimme</p></section>
+  </main>
+  <footer><div><button data-command="refresh">Aktualisieren</button><button data-command="toggle-mode">Fenstermodus wechseln</button><button data-command="release-external">Begleiter freigeben</button><button data-command="close">Schließen</button></div><small id="observed">Noch nicht beobachtet</small></footer>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "star-citizen-companion-deck",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Deutsches Ereignis-Deck für Orion und Aurora; Browserprüfungen für die lokale Windows-Anwendung.",
+  "engines": { "node": ">=22" },
+  "scripts": { "test": "node runtime/tests/web-ui.cjs" },
+  "devDependencies": { "playwright": "1.62.1" }
+}

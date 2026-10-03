@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "displayKey": null,
+  "displayNames": ["XENEON EDGE", "XENON EDGE"],
+  "mode": "Windowed",
+  "windowedArea": {"x": 0.05, "y": 0.05, "width": 0.9, "height": 0.9},
+  "companionArea": {"x": 0.6625, "y": 0, "width": 0.3375, "height": 1},
+  "externalWindow": null,
+  "externalPlacement": "ResizeToBay",
+  "refreshMilliseconds": 2000
+}

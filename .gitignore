@@ -1,0 +1,12 @@
+node_modules/
+**/bin/
+**/obj/
+*.user
+test-results/
+.vs/
+*.local.json
+Game.log
+*-Companion-Events.jsonl
+diagnostics/
+branding/export-v2/
+branding/*.zip

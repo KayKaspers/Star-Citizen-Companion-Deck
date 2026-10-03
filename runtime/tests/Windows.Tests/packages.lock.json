@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net8.0-windows7.0": {
+      "Microsoft.Web.WebView2": {
+        "type": "Transitive",
+        "resolved": "1.0.4258.31",
+        "contentHash": "sHVZ2MQrHT1J3q5/6csn0fIP27rzpTO/RRC+wPQDrZheB7T4t2n+vVbY6SdCKr4WRV9s/gmBM3PPMWWJtoDzMg=="
+      },
+      "xeneon.runtime.core": {
+        "type": "Project"
+      },
+      "xeneon.runtime.host": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Web.WebView2": "[1.0.4258.31, 1.0.4258.31]",
+          "Xeneon.Runtime.Windows": "[1.0.0, )"
+        }
+      },
+      "xeneon.runtime.windows": {
+        "type": "Project",
+        "dependencies": {
+          "Xeneon.Runtime.Core": "[1.0.0, )"
+        }
+      }
+    }
+  }
+}

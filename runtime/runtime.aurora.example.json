@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "displayKey": null,
+  "displayNames": [
+    "XENEON EDGE",
+    "XENON EDGE"
+  ],
+  "mode": "Fullscreen",
+  "windowedArea": {
+    "x": 0.05,
+    "y": 0.05,
+    "width": 0.9,
+    "height": 0.9
+  },
+  "companionArea": {
+    "x": 0.6625,
+    "y": 0,
+    "width": 0.3375,
+    "height": 1
+  },
+  "externalWindow": {
+    "processName": "Aurora Log-Wächter",
+    "className": null,
+    "title": "Aurora Companion"
+  },
+  "externalPlacement": "CenterInBay",
+  "refreshMilliseconds": 2000,
+  "companionVariant": "Aurora"
+}

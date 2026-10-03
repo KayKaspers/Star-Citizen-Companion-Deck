@@ -1,0 +1,11 @@
+* text=auto
+*.svg text eol=lf
+*.js text eol=lf
+*.cjs text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.md text eol=lf
+*.png binary
+
+# Originale Schriftlizenzen unverändert erhalten.
+branding/fonts/*-OFL.txt whitespace=-blank-at-eol

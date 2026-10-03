@@ -1,0 +1,33 @@
+/* Eigene UI-Interpretationen: Herkunft und Abgrenzung siehe THEMEN-RECHERCHE.md. */
+body{--bg:#0b1519;--panel:#102126;--button:#19333b;--text:#d8eef0;--muted:#a9c9cd;--accent:#89e5db;--line:#42636c;--warning:#ffbc6e;--radius:8px;background:var(--bg);color:var(--text);color-scheme:dark}
+body[data-theme=rsi]{--bg:#101a25;--panel:#182737;--button:#203649;--text:#e2edf5;--muted:#afc9dc;--accent:#8bd3ff;--line:#4a6c87;--radius:3px}
+body[data-theme=anvil]{--bg:#181d17;--panel:#222a20;--button:#303d2a;--text:#e4ecdf;--muted:#bdcbb1;--accent:#c3dc9b;--line:#627253;--radius:2px}
+body[data-theme=aegis]{--bg:#1b181b;--panel:#29242a;--button:#3a2b31;--text:#f2e8ec;--muted:#ccb8c0;--accent:#ffadb4;--line:#815967;--radius:2px}
+body[data-theme=drake]{--bg:#1c1b17;--panel:#292820;--button:#3c3829;--text:#f3eddb;--muted:#d1c6ab;--accent:#f5ce70;--line:#847655;--radius:0px}
+body[data-theme=origin]{--bg:#e7e5df;--panel:#f6f4ee;--button:#e2ded3;--text:#1f2b32;--muted:#485b64;--accent:#77520f;--line:#9e9887;--warning:#9d351c;--radius:18px;color-scheme:light}
+body[data-theme=crusader]{--bg:#101b2b;--panel:#1a2a40;--button:#233d58;--text:#e7f1fa;--muted:#b2cce3;--accent:#91ceff;--line:#537493;--radius:10px}
+body[data-theme=misc]{--bg:#1c2021;--panel:#292f31;--button:#343e40;--text:#e7edee;--muted:#becbd0;--accent:#a6e0dc;--line:#668388;--radius:12px}
+body[data-theme=argo]{--bg:#211b17;--panel:#30251e;--button:#453326;--text:#f8ecdf;--muted:#dbc3ad;--accent:#ffb679;--line:#926b4a;--radius:4px}
+body[data-theme=banu]{--bg:#1d211b;--panel:#2b3025;--button:#3b4333;--text:#f0edd9;--muted:#d1cbae;--accent:#ebd08a;--line:#8d8861;--radius:24px}
+body[data-theme=consolidated]{--bg:#0e2227;--panel:#17333a;--button:#21464a;--text:#e1f5f3;--muted:#add4d2;--accent:#86ecd4;--line:#4e8d89;--radius:14px}
+body[data-theme=esperia]{--bg:#201b26;--panel:#302638;--button:#46344a;--text:#f4eafa;--muted:#ceb8da;--accent:#e4b2ee;--line:#896694;--radius:20px}
+body[data-theme=kruger]{--bg:#211e19;--panel:#302c23;--button:#454032;--text:#f5edda;--muted:#d4c6a4;--accent:#e9cf91;--line:#8f7d55;--radius:6px}
+body[data-theme=mirai]{--bg:#141922;--panel:#202938;--button:#303c50;--text:#edf2fa;--muted:#bdcce2;--accent:#f1f3f6;--line:#687a90;--radius:3px}
+body[data-theme=vanduul]{--bg:#211315;--panel:#341e22;--button:#4a292f;--text:#f9e4e5;--muted:#e0b6bc;--accent:#ffb3a9;--line:#9d5f64;--radius:0px}
+body[data-theme=aopoa]{--bg:#17192a;--panel:#24273e;--button:#343957;--text:#e7f2ee;--muted:#bbcfc8;--accent:#adedd0;--line:#6c8990;--radius:18px}
+section{background:var(--panel);border-color:var(--line);border-radius:var(--radius)}button,select,input[type=search]{background:var(--button);color:var(--text);border-color:var(--line);border-radius:var(--radius)}#health{border-color:var(--accent);color:var(--accent)}small,.feed-heading span,.row-time,.feed-note{color:var(--muted)}h2,.row-badge{color:var(--accent)}button:focus-visible,select:focus-visible,input:focus-visible{outline-color:var(--accent)}nav button[aria-pressed=true]{border-color:var(--accent);box-shadow:inset 0 -3px var(--accent)}.feed-row{border-color:var(--line)}#feed{scrollbar-color:var(--line) var(--bg)}input[type=checkbox]{accent-color:var(--accent)}body[data-health=ERROR] #health,body[data-health=DEGRADED] #health,.feed-row[data-level=Error] .row-badge,.feed-row[data-level=Fatal] .row-badge{color:var(--warning);border-color:var(--warning)}
+body[data-theme=rsi] header{border-bottom:2px solid var(--accent);padding-bottom:8px}body[data-theme=rsi] .terminal{border-top:4px solid var(--accent)}
+body[data-theme=anvil] section{border-width:2px;box-shadow:inset 0 5px var(--line)}body[data-theme=anvil] h2{letter-spacing:.12em}
+body[data-theme=aegis] header{border-left:6px solid var(--accent);padding-left:16px}body[data-theme=aegis] section{border-top:3px solid var(--accent)}
+body[data-theme=drake] .terminal{border-top:7px solid var(--accent)}body[data-theme=drake] .bay{background-image:repeating-linear-gradient(135deg,transparent 0,transparent 28px,#f5ce7008 28px,#f5ce7008 32px)}body[data-theme=drake] h1{font-family:Consolas,monospace}
+body[data-theme=origin] h1{font-weight:400;letter-spacing:.06em}body[data-theme=origin] section{box-shadow:0 6px 18px #1f2b3212}body[data-theme=origin] .bay{border-top:4px solid var(--accent)}
+body[data-theme=crusader] header{border-bottom:3px solid var(--accent);padding-bottom:8px}body[data-theme=crusader] .bay{background-image:linear-gradient(135deg,#91ceff10 0,#91ceff10 8%,transparent 8%,transparent 91%,#91ceff10 91%)}
+body[data-theme=misc] section{border-width:2px}body[data-theme=misc] .feed-row{border-bottom-style:dashed}body[data-theme=misc] h2{letter-spacing:.06em}
+body[data-theme=argo] .terminal{border-left:7px solid var(--accent)}body[data-theme=argo] .bay{border-top:7px solid var(--accent)}body[data-theme=argo] h2{font-family:Consolas,monospace}
+body[data-theme=banu] section{border-radius:24px 8px 24px 8px;border-width:2px}body[data-theme=banu] h1{font-weight:500;letter-spacing:.04em}
+body[data-theme=consolidated] header{border-bottom:3px solid var(--accent);padding-bottom:8px}body[data-theme=consolidated] .bay{background-image:linear-gradient(120deg,transparent 85%,#86ecd415 85%)}body[data-theme=consolidated] h1{font-style:italic}
+body[data-theme=esperia] section{border-radius:24px 4px 24px 4px;border-top:3px solid var(--accent)}body[data-theme=esperia] .bay{background-image:radial-gradient(ellipse at bottom,#e4b2ee10,transparent 70%)}
+body[data-theme=kruger] header{border-bottom:1px solid var(--accent);padding-bottom:8px}body[data-theme=kruger] h1{font-weight:400;letter-spacing:.08em}body[data-theme=kruger] .bay{border-left:3px solid var(--accent)}
+body[data-theme=mirai] header{border-left:8px solid #d85e6a;padding-left:16px}body[data-theme=mirai] section{border-top:3px solid var(--accent)}body[data-theme=mirai] h2{letter-spacing:.1em}
+body[data-theme=vanduul] section{border-width:3px;border-top-style:double}body[data-theme=vanduul] header{border-right:8px solid var(--accent);padding-right:16px}body[data-theme=vanduul] h1{letter-spacing:.1em;font-family:Consolas,monospace}
+body[data-theme=aopoa] section{border-radius:18px 6px;border-width:2px}body[data-theme=aopoa] .bay{background-image:radial-gradient(ellipse at top right,#adedd014,transparent 70%)}body[data-theme=aopoa] h2{letter-spacing:.12em}
