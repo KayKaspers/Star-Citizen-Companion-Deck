@@ -1,6 +1,7 @@
 param(
     [Parameter(Mandatory = $true)]
-    [string]$TechdemoUrl
+    [string]$TechdemoUrl,
+    [string]$CommitNachricht = 'Release 0.1.0: Installer, deutsches Handbuch, Einrichtung und Techdemo'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -11,15 +12,13 @@ $taskTag = "v$taskVersion"
 $taskUtf8 = New-Object System.Text.UTF8Encoding($false)
 
 function Invoke-DeckGit {
-    param([Parameter(ValueFromRemainingArguments = $true)][string[]]$Arguments)
-    & git @Arguments
-    if ($LASTEXITCODE -ne 0) { throw "Git fehlgeschlagen: $($Arguments -join ' ')" }
+    & git @args
+    if ($LASTEXITCODE -ne 0) { throw "Git fehlgeschlagen: $($args -join ' ')" }
 }
 
 function Invoke-DeckGh {
-    param([Parameter(ValueFromRemainingArguments = $true)][string[]]$Arguments)
-    & gh @Arguments
-    if ($LASTEXITCODE -ne 0) { throw "GitHub fehlgeschlagen: $($Arguments -join ' ')" }
+    & gh @args
+    if ($LASTEXITCODE -ne 0) { throw "GitHub fehlgeschlagen: $($args -join ' ')" }
 }
 
 if ($TechdemoUrl -notmatch '^https://github\.com/user-attachments/assets/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$') {
@@ -103,7 +102,7 @@ Mit dem Player direkt hier abspielen; das Video enthält Originalton und ruhige 
     Invoke-DeckGit add --all
     Invoke-DeckGit diff --cached --check
     Invoke-DeckGit diff --cached --stat
-    Invoke-DeckGit commit -m 'Release 0.1.0: Installer, deutsches Handbuch, Einrichtung und Techdemo'
+    Invoke-DeckGit commit -m $CommitNachricht
     $taskCommit = (Invoke-DeckGit rev-parse HEAD).Trim()
     Invoke-DeckGit push origin main
     Invoke-DeckGit tag -a $taskTag -m 'Star Citizen Begleiter-Deck 0.1.0' $taskCommit
